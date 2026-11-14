@@ -30,14 +30,18 @@ html, body, [class*="css"] {
     color: #EAF1FC;
 }
 
+/* SIDEBAR */
+
 [data-testid="stSidebar"] {
     background: #0D1728;
     border-right: 1px solid #1C2B42;
 }
 
 [data-testid="stSidebar"] * {
-    color: #DCE7F8;
+    color: #DCE7F8 !important;
 }
+
+/* MAIN CONTENT */
 
 .block-container {
     padding-top: 2.2rem;
@@ -45,10 +49,38 @@ html, body, [class*="css"] {
     max-width: 1500px;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5 {
     font-family: 'Manrope', sans-serif;
-    color: #F4F7FD;
+    color: #F4F7FD !important;
 }
+
+/* FIX ALL FORM LABELS */
+
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] *,
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] label,
+.stSelectbox label,
+.stNumberInput label,
+.stTextInput label,
+.stRadio label,
+.stSlider label,
+.stMultiSelect label,
+.stDateInput label,
+.stTimeInput label {
+    color: #EAF2FF !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+}
+
+/* FORM HELP TEXT */
+
+[data-testid="stCaptionContainer"] p,
+.stMarkdown p {
+    color: #C7D5E8;
+}
+
+/* HERO SECTION */
 
 .hero {
     background: linear-gradient(115deg, #10223C, #122F52);
@@ -78,6 +110,8 @@ h1, h2, h3 {
     font-size: 14px;
     margin-top: 8px;
 }
+
+/* KPI CARDS */
 
 .metric-card {
     background: #111E31;
@@ -109,6 +143,8 @@ h1, h2, h3 {
     margin-top: 4px;
 }
 
+/* SECTION HEADINGS */
+
 .section-heading {
     font-family: 'Manrope', sans-serif;
     color: #F0F5FC;
@@ -118,40 +154,65 @@ h1, h2, h3 {
     margin-bottom: 13px;
 }
 
+/* PANELS */
+
 .info-panel {
     background: #111E31;
     border: 1px solid #23354F;
     border-radius: 13px;
     padding: 19px;
+    color: #EAF2FF;
 }
+
+/* TABS */
 
 div[data-testid="stTabs"] button {
-    color: #AFC2DC;
+    color: #AFC2DC !important;
 }
 
-.stButton > button {
+/* BUTTONS */
+
+.stButton > button,
+.stFormSubmitButton > button {
     background: #287FE5;
-    color: white;
+    color: white !important;
     border: none;
     border-radius: 8px;
     font-weight: 700;
     padding: 10px 20px;
 }
 
-.stButton > button:hover {
+.stButton > button:hover,
+.stFormSubmitButton > button:hover {
     background: #4599FA;
-    color: white;
+    color: white !important;
     border: none;
 }
 
-.stTextInput input, .stNumberInput input {
-    background: #111E31;
-    color: white;
+/* INPUT FIELDS */
+
+.stTextInput input,
+.stNumberInput input {
+    background: #111E31 !important;
+    color: #FFFFFF !important;
+    border-color: #2A3E5C !important;
 }
+
+/* DROPDOWN FIELDS */
 
 div[data-baseweb="select"] > div {
     background: #111E31;
     border-color: #2A3E5C;
+}
+
+div[data-baseweb="select"] * {
+    color: #FFFFFF;
+}
+
+/* DROPDOWN MENU OPTIONS */
+
+ul[data-testid="stSelectboxVirtualDropdown"] {
+    background: #FFFFFF;
 }
 
 hr {
@@ -164,29 +225,37 @@ footer {
 </style>
 """, unsafe_allow_html=True)
 
+
 # ---------------- LOAD DATA ----------------
 
 @st.cache_resource
 def load_model():
     return joblib.load("churn_guard_model.pkl")
 
+
 @st.cache_data
 def load_data():
     data = pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv")
+
     data["TotalCharges"] = pd.to_numeric(
         data["TotalCharges"], errors="coerce"
     )
+
     data = data.dropna(subset=["TotalCharges"]).copy()
     data["SeniorCitizen"] = data["SeniorCitizen"].astype(str)
     data["Churn"] = data["Churn"].map({"No": 0, "Yes": 1})
+
     return data
+
 
 try:
     model = load_model()
     df = load_data()
+
 except Exception as e:
     st.error(f"Unable to load the model or dataset: {e}")
     st.stop()
+
 
 # ---------------- CHART THEME ----------------
 
@@ -200,9 +269,11 @@ CHART_LAYOUT = dict(
     yaxis=dict(gridcolor="#26364D", zerolinecolor="#26364D")
 )
 
+
 # ---------------- SIDEBAR ----------------
 
 with st.sidebar:
+
     st.markdown("""
     <div style="padding:12px 0 25px 0;">
         <div style="font-size:12px;letter-spacing:2px;color:#63B3FF;font-weight:700;">
@@ -231,9 +302,11 @@ with st.sidebar:
     )
 
     st.markdown("---")
+
     st.caption("MACHINE LEARNING PROJECT")
     st.caption("Telecommunications Customer Analytics")
     st.caption("ChurnGuard AI · 2026")
+
 
 # ---------------- HEADER ----------------
 
@@ -248,9 +321,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+
 # ---------------- KPI FUNCTION ----------------
 
 def metric_card(label, value, note):
+
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-label">{label}</div>
@@ -259,17 +334,21 @@ def metric_card(label, value, note):
     </div>
     """, unsafe_allow_html=True)
 
+
 total = len(df)
 churned = int(df["Churn"].sum())
 retained = total - churned
 churn_rate = churned / total * 100
 
+
 # ---------------- OVERVIEW ----------------
 
 if page == "Overview":
 
-    st.markdown('<div class="section-heading">Business Overview</div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-heading">Business Overview</div>',
+        unsafe_allow_html=True
+    )
 
     c1, c2, c3, c4 = st.columns(4)
 
@@ -285,12 +364,15 @@ if page == "Overview":
     with c4:
         metric_card("Churn Rate", f"{churn_rate:.2f}%", "Overall customer churn")
 
-    st.markdown('<div class="section-heading">Customer Retention Analysis</div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-heading">Customer Retention Analysis</div>',
+        unsafe_allow_html=True
+    )
 
     left, right = st.columns(2)
 
     with left:
+
         churn_data = pd.DataFrame({
             "Customer Status": ["Retained", "Churned"],
             "Customers": [retained, churned]
@@ -310,17 +392,21 @@ if page == "Overview":
         )
 
         fig.update_layout(**CHART_LAYOUT)
+
         fig.update_traces(
             textposition="outside",
             textinfo="percent+label"
         )
+
         st.plotly_chart(fig, use_container_width=True)
 
     with right:
+
         contract_data = (
             df.groupby("Contract")["Churn"]
             .mean().mul(100).reset_index()
         )
+
         contract_data.columns = ["Contract", "Churn Rate"]
 
         fig = px.bar(
@@ -335,10 +421,13 @@ if page == "Overview":
 
         fig.update_layout(**CHART_LAYOUT, showlegend=False)
         fig.update_yaxes(title="Churn Rate (%)")
+
         st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown('<div class="section-heading">Customer Behaviour</div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-heading">Customer Behaviour</div>',
+        unsafe_allow_html=True
+    )
 
     fig = px.histogram(
         df,
@@ -349,22 +438,30 @@ if page == "Overview":
         opacity=0.78,
         color_discrete_map={0: "#3289E8", 1: "#F07878"},
         title="Customer Tenure Distribution",
-        labels={"tenure": "Tenure (Months)", "Churn": "Churn Status"}
+        labels={
+            "tenure": "Tenure (Months)",
+            "Churn": "Churn Status"
+        }
     )
 
     fig.update_layout(**CHART_LAYOUT)
+
     st.plotly_chart(fig, use_container_width=True)
+
 
 # ---------------- CHURN INSIGHTS ----------------
 
 elif page == "Churn Insights":
 
-    st.markdown('<div class="section-heading">Customer Churn Insights</div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-heading">Customer Churn Insights</div>',
+        unsafe_allow_html=True
+    )
 
     left, right = st.columns(2)
 
     with left:
+
         fig = px.box(
             df,
             x="Churn",
@@ -372,12 +469,18 @@ elif page == "Churn Insights":
             color="Churn",
             color_discrete_map={0: "#3289E8", 1: "#F07878"},
             title="Monthly Charges vs Churn",
-            labels={"Churn": "Churn Status", "MonthlyCharges": "Monthly Charges"}
+            labels={
+                "Churn": "Churn Status",
+                "MonthlyCharges": "Monthly Charges"
+            }
         )
+
         fig.update_layout(**CHART_LAYOUT, showlegend=False)
+
         st.plotly_chart(fig, use_container_width=True)
 
     with right:
+
         fig = px.histogram(
             df,
             x="tenure",
@@ -387,7 +490,9 @@ elif page == "Churn Insights":
             title="Tenure and Churn Patterns",
             labels={"tenure": "Tenure (Months)"}
         )
+
         fig.update_layout(**CHART_LAYOUT)
+
         st.plotly_chart(fig, use_container_width=True)
 
     contract_rate = (
@@ -396,9 +501,16 @@ elif page == "Churn Insights":
         .reset_index(name="Churn Rate (%)")
     )
 
-    st.markdown('<div class="section-heading">Contract Analysis</div>',
-                unsafe_allow_html=True)
-    st.dataframe(contract_rate, use_container_width=True, hide_index=True)
+    st.markdown(
+        '<div class="section-heading">Contract Analysis</div>',
+        unsafe_allow_html=True
+    )
+
+    st.dataframe(
+        contract_rate,
+        use_container_width=True,
+        hide_index=True
+    )
 
     st.markdown("""
     <div class="info-panel">
@@ -409,12 +521,15 @@ elif page == "Churn Insights":
     </div>
     """, unsafe_allow_html=True)
 
+
 # ---------------- CUSTOMER PREDICTION ----------------
 
 elif page == "Customer Prediction":
 
-    st.markdown('<div class="section-heading">Individual Customer Risk Assessment</div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-heading">Individual Customer Risk Assessment</div>',
+        unsafe_allow_html=True
+    )
 
     st.write(
         "Enter customer details below to generate a churn prediction "
@@ -431,37 +546,43 @@ elif page == "Customer Prediction":
         if c not in ["tenure", "MonthlyCharges", "TotalCharges"]
     ]
 
-    numeric_columns = ["tenure", "MonthlyCharges", "TotalCharges"]
-
     with st.form("prediction_form"):
 
         st.markdown("#### Customer Profile")
+
         col1, col2, col3 = st.columns(3)
 
         inputs = {}
 
         for i, column in enumerate(feature_columns):
+
             container = [col1, col2, col3][i % 3]
 
             with container:
+
                 if column in categorical_columns:
+
                     options = sorted(
                         df[column].dropna().astype(str).unique().tolist()
                     )
-                    default_index = 0
 
                     inputs[column] = st.selectbox(
                         column,
                         options,
-                        index=default_index
+                        index=0
                     )
 
                 elif column == "tenure":
+
                     inputs[column] = st.number_input(
-                        "Tenure (Months)", 0, 72, 12
+                        "Tenure (Months)",
+                        0,
+                        72,
+                        12
                     )
 
                 elif column == "MonthlyCharges":
+
                     inputs[column] = st.number_input(
                         "Monthly Charges",
                         min_value=0.0,
@@ -470,6 +591,7 @@ elif page == "Customer Prediction":
                     )
 
                 elif column == "TotalCharges":
+
                     inputs[column] = st.number_input(
                         "Total Charges",
                         min_value=0.0,
@@ -484,46 +606,68 @@ elif page == "Customer Prediction":
 
     if submitted:
 
-        input_df = pd.DataFrame([inputs], columns=feature_columns)
+        input_df = pd.DataFrame(
+            [inputs],
+            columns=feature_columns
+        )
 
         prediction = int(model.predict(input_df)[0])
 
         probability = None
 
         if hasattr(model, "predict_proba"):
+
             probabilities = model.predict_proba(input_df)[0]
+
             classes = list(model.named_steps["model"].classes_)
+
             churn_index = classes.index(1)
+
             probability = float(probabilities[churn_index]) * 100
 
         st.markdown("---")
         st.markdown("### Prediction Result")
 
         if prediction == 1:
+
             st.error("HIGH PRIORITY: MODEL PREDICTS CUSTOMER CHURN")
+
         else:
+
             st.success("MODEL PREDICTS CUSTOMER RETENTION")
 
         if probability is not None:
-            st.metric("Estimated Churn Probability", f"{probability:.2f}%")
-            st.progress(min(max(probability / 100, 0.0), 1.0))
+
+            st.metric(
+                "Estimated Churn Probability",
+                f"{probability:.2f}%"
+            )
+
+            st.progress(
+                min(max(probability / 100, 0.0), 1.0)
+            )
 
         st.caption(
             "This is a model prediction based on the supplied customer "
             "information, not a guarantee of future behaviour."
         )
 
+
 # ---------------- MODEL PERFORMANCE ----------------
 
 elif page == "Model Performance":
 
-    st.markdown('<div class="section-heading">Machine Learning Performance</div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-heading">Machine Learning Performance</div>',
+        unsafe_allow_html=True
+    )
 
     try:
+
         results = pd.read_csv("model_comparison.csv")
 
         st.markdown("#### Model Comparison")
+
         st.dataframe(
             results.style.format({
                 "Accuracy": "{:.3f}",
@@ -541,6 +685,7 @@ elif page == "Model Performance":
         ]
 
         if metric_columns:
+
             chart_data = results.melt(
                 id_vars="Model",
                 value_vars=metric_columns,
@@ -558,15 +703,19 @@ elif page == "Model Performance":
                 color_discrete_sequence=["#3289E8", "#50B6C9"],
                 text_auto=".3f"
             )
+
             fig.update_layout(**CHART_LAYOUT)
+
             st.plotly_chart(fig, use_container_width=True)
 
     except FileNotFoundError:
+
         st.warning("Model comparison CSV not found.")
 
     st.markdown("#### Feature Importance")
 
     try:
+
         importance = pd.read_csv("feature_importance.csv").head(10)
 
         fig = px.bar(
@@ -580,16 +729,20 @@ elif page == "Model Performance":
         )
 
         fig.update_layout(**CHART_LAYOUT)
+
         st.plotly_chart(fig, use_container_width=True)
 
     except FileNotFoundError:
+
         st.warning("Feature importance CSV not found.")
+
 
 # ---------------- FOOTER ----------------
 
 st.markdown("---")
+
 st.markdown("""
-<div style="text-align:center;color:#7186A3;font-size:11px;padding:15px;">
+<div style="text-align:center;color:#A0B4CE;font-size:11px;padding:15px;">
     CHURNGUARD AI · CUSTOMER CHURN PREDICTION SYSTEM<br>
     MACHINE LEARNING PROTOTYPE · 2026
 </div>
