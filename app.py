@@ -65,6 +65,8 @@ h1, h2, h3, h4, h5 {
     color: #C7D5E8;
 }
 
+/* MAIN HERO */
+
 .hero {
     background: linear-gradient(115deg, #10223C, #122F52);
     border: 1px solid #23476D;
@@ -93,6 +95,119 @@ h1, h2, h3, h4, h5 {
     font-size: 14px;
     margin-top: 8px;
 }
+
+/* OVERVIEW INTRODUCTION */
+
+.welcome-panel {
+    background: linear-gradient(115deg, #111F34, #142943);
+    border: 1px solid #294462;
+    border-radius: 15px;
+    padding: 26px 28px;
+    margin-bottom: 24px;
+}
+
+.welcome-label {
+    color: #63B3FF;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.welcome-title {
+    font-family: 'Manrope', sans-serif;
+    color: #FFFFFF;
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.welcome-description {
+    color: #C5D5E9;
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 1000px;
+}
+
+.platform-tag {
+    display: inline-block;
+    background: #193B5D;
+    color: #80C5FF;
+    border: 1px solid #315D83;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+
+.capability-card {
+    background: #111E31;
+    border: 1px solid #263B57;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 145px;
+    margin-bottom: 10px;
+}
+
+.capability-number {
+    color: #63B3FF;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.capability-title {
+    color: #F2F6FF;
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.capability-description {
+    color: #AFC2DC;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.workflow-card {
+    background: #111E31;
+    border: 1px solid #263B57;
+    border-radius: 12px;
+    padding: 18px;
+    min-height: 155px;
+}
+
+.workflow-number {
+    display: inline-block;
+    background: #1C4770;
+    color: #8CCBFF;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 7px;
+    padding: 6px 10px;
+    margin-bottom: 12px;
+}
+
+.workflow-title {
+    color: #F2F6FF;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.workflow-description {
+    color: #AFC2DC;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* METRIC CARDS */
 
 .metric-card {
     background: #111E31;
@@ -177,7 +292,7 @@ div[data-baseweb="select"] * {
     color: #FFFFFF !important;
 }
 
-/* FIX: PREDICTION METRIC TEXT */
+/* PREDICTION METRIC TEXT */
 
 [data-testid="stMetric"] {
     background: #111E31 !important;
@@ -307,11 +422,11 @@ with st.sidebar:
 
 st.markdown("""
 <div class="hero">
-    <div class="hero-label">CUSTOMER INTELLIGENCE PLATFORM</div>
+    <div class="hero-label">CHURNGUARD AI · CUSTOMER INTELLIGENCE PLATFORM</div>
     <div class="hero-title">Predict. Prevent. Retain.</div>
     <div class="hero-subtitle">
-        Transform customer data into actionable retention intelligence
-        using machine learning.
+        Understand customer behaviour. Identify potential churn.
+        Make smarter retention decisions with machine learning.
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -340,9 +455,150 @@ churn_rate = churned / total * 100
 
 if page == "Overview":
 
+    # PRODUCT INTRODUCTION
+
+    st.markdown("""
+    <div class="welcome-panel">
+        <div class="platform-tag">AI-POWERED ANALYTICS</div>
+        <div class="welcome-title">Welcome to ChurnGuard AI</div>
+        <div class="welcome-description">
+            ChurnGuard AI is an intelligent customer churn prediction
+            platform designed to help telecommunications businesses
+            understand why customers leave and identify who may be at
+            risk of leaving. By analysing historical customer information
+            and applying machine learning, the platform provides useful
+            insights into customer behaviour and potential churn.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # PLATFORM CAPABILITIES
+
+    st.markdown(
+        '<div class="section-heading">What Can You Do with ChurnGuard AI?</div>',
+        unsafe_allow_html=True
+    )
+
+    cap1, cap2 = st.columns(2)
+
+    with cap1:
+        st.markdown("""
+        <div class="capability-card">
+            <div class="capability-number">01 · CUSTOMER ANALYTICS</div>
+            <div class="capability-title">Customer Insights</div>
+            <div class="capability-description">
+                Explore customer churn trends, retention patterns and
+                customer behaviour through interactive visualisations.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with cap2:
+        st.markdown("""
+        <div class="capability-card">
+            <div class="capability-number">02 · PREDICTIVE AI</div>
+            <div class="capability-title">AI Prediction</div>
+            <div class="capability-description">
+                Enter individual customer details and estimate the
+                likelihood of that customer leaving the service.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    cap3, cap4 = st.columns(2)
+
+    with cap3:
+        st.markdown("""
+        <div class="capability-card">
+            <div class="capability-number">03 · CUSTOMER BEHAVIOUR</div>
+            <div class="capability-title">Churn Analysis</div>
+            <div class="capability-description">
+                Understand which customer groups and service
+                characteristics are associated with higher churn.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with cap4:
+        st.markdown("""
+        <div class="capability-card">
+            <div class="capability-number">04 · MODEL EVALUATION</div>
+            <div class="capability-title">Model Performance</div>
+            <div class="capability-description">
+                Compare machine learning models and review their
+                performance using classification evaluation metrics.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # HOW IT WORKS
+
+    st.markdown(
+        '<div class="section-heading">How ChurnGuard AI Works</div>',
+        unsafe_allow_html=True
+    )
+
+    w1, w2, w3, w4 = st.columns(4)
+
+    with w1:
+        st.markdown("""
+        <div class="workflow-card">
+            <div class="workflow-number">STEP 01</div>
+            <div class="workflow-title">Customer Data</div>
+            <div class="workflow-description">
+                The platform analyses historical telecommunications
+                customer information.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with w2:
+        st.markdown("""
+        <div class="workflow-card">
+            <div class="workflow-number">STEP 02</div>
+            <div class="workflow-title">Machine Learning</div>
+            <div class="workflow-description">
+                Trained classification models learn patterns
+                associated with customer churn.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with w3:
+        st.markdown("""
+        <div class="workflow-card">
+            <div class="workflow-number">STEP 03</div>
+            <div class="workflow-title">Churn Prediction</div>
+            <div class="workflow-description">
+                The model estimates the probability that an
+                individual customer may leave.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with w4:
+        st.markdown("""
+        <div class="workflow-card">
+            <div class="workflow-number">STEP 04</div>
+            <div class="workflow-title">Business Insights</div>
+            <div class="workflow-description">
+                Businesses can use these insights to plan
+                customer retention strategies.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # BUSINESS OVERVIEW
+
     st.markdown(
         '<div class="section-heading">Business Overview</div>',
         unsafe_allow_html=True
+    )
+
+    st.caption(
+        "A snapshot of customer retention and churn in the analysed dataset."
     )
 
     c1, c2, c3, c4 = st.columns(4)
@@ -358,6 +614,8 @@ if page == "Overview":
 
     with c4:
         metric_card("Churn Rate", f"{churn_rate:.2f}%", "Overall customer churn")
+
+    # CUSTOMER RETENTION CHARTS
 
     st.markdown(
         '<div class="section-heading">Customer Retention Analysis</div>',
@@ -417,6 +675,8 @@ if page == "Overview":
         fig.update_yaxes(title="Churn Rate (%)")
 
         st.plotly_chart(fig, use_container_width=True)
+
+    # CUSTOMER BEHAVIOUR
 
     st.markdown(
         '<div class="section-heading">Customer Behaviour</div>',
@@ -600,17 +860,14 @@ elif page == "Customer Prediction":
 
         try:
 
-            # Generate prediction
             prediction = int(model.predict(input_df)[0])
 
-            # Get churn probability
             probability = None
 
             if hasattr(model, "predict_proba"):
 
                 probabilities = model.predict_proba(input_df)[0]
 
-                # Find the final estimator in the pipeline
                 if hasattr(model, "classes_"):
                     classes = list(model.classes_)
 
