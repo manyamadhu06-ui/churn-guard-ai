@@ -611,46 +611,58 @@ elif page == "Customer Prediction":
             columns=feature_columns
         )
 
-        prediction = int(model.predict(input_df)[0])
+        try:
+            # Generate prediction
+            prediction = int(model.predict(input_df)[0])
 
-        probability = None
+            # Calculate churn probability
+            probability = None
 
-        if hasattr(model, "predict_proba"):
+            if hasattr(model, "predict_proba"):
 
-            probabilities = model.predict_proba(input_df)[0]
+                probabilities = model.predict_proba(input_df)[0]
 
-            classes = list(model.named_steps["model"].classes_)
+                # FIX: Read class labels directly from the model
+                classes = list(model.classes_)
 
-            churn_index = classes.index(1)
+                churn_index = classes.index(1)
 
-            probability = float(probabilities[churn_index]) * 100
+                probability = float(probabilities[churn_index]) * 100
 
-        st.markdown("---")
-        st.markdown("### Prediction Result")
+            st.markdown("---")
+            st.markdown("### Prediction Result")
 
-        if prediction == 1:
+            if prediction == 1:
 
-            st.error("HIGH PRIORITY: MODEL PREDICTS CUSTOMER CHURN")
+                st.error(
+                    "HIGH PRIORITY: MODEL PREDICTS CUSTOMER CHURN"
+                )
 
-        else:
+            else:
 
-            st.success("MODEL PREDICTS CUSTOMER RETENTION")
+                st.success(
+                    "MODEL PREDICTS CUSTOMER RETENTION"
+                )
 
-        if probability is not None:
+            if probability is not None:
 
-            st.metric(
-                "Estimated Churn Probability",
-                f"{probability:.2f}%"
+                st.metric(
+                    "Estimated Churn Probability",
+                    f"{probability:.2f}%"
+                )
+
+                st.progress(
+                    min(max(probability / 100, 0.0), 1.0)
+                )
+
+            st.caption(
+                "This is a model prediction based on the supplied customer "
+                "information, not a guarantee of future behaviour."
             )
 
-            st.progress(
-                min(max(probability / 100, 0.0), 1.0)
-            )
+        except Exception as e:
 
-        st.caption(
-            "This is a model prediction based on the supplied customer "
-            "information, not a guarantee of future behaviour."
-        )
+            st.error(f"Prediction could not be generated: {e}")
 
 
 # ---------------- MODEL PERFORMANCE ----------------
