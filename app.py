@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import plotly.graph_objects as go
 import joblib
 
 # ---------------- PAGE CONFIG ----------------
@@ -30,8 +29,6 @@ html, body, [class*="css"] {
     color: #EAF1FC;
 }
 
-/* SIDEBAR */
-
 [data-testid="stSidebar"] {
     background: #0D1728;
     border-right: 1px solid #1C2B42;
@@ -40,8 +37,6 @@ html, body, [class*="css"] {
 [data-testid="stSidebar"] * {
     color: #DCE7F8 !important;
 }
-
-/* MAIN CONTENT */
 
 .block-container {
     padding-top: 2.2rem;
@@ -54,33 +49,21 @@ h1, h2, h3, h4, h5 {
     color: #F4F7FD !important;
 }
 
-/* FIX ALL FORM LABELS */
-
 [data-testid="stWidgetLabel"],
 [data-testid="stWidgetLabel"] *,
 [data-testid="stWidgetLabel"] p,
 [data-testid="stWidgetLabel"] label,
 .stSelectbox label,
-.stNumberInput label,
-.stTextInput label,
-.stRadio label,
-.stSlider label,
-.stMultiSelect label,
-.stDateInput label,
-.stTimeInput label {
+.stNumberInput label {
     color: #EAF2FF !important;
     font-weight: 600 !important;
     opacity: 1 !important;
 }
 
-/* FORM HELP TEXT */
-
 [data-testid="stCaptionContainer"] p,
 .stMarkdown p {
     color: #C7D5E8;
 }
-
-/* HERO SECTION */
 
 .hero {
     background: linear-gradient(115deg, #10223C, #122F52);
@@ -110,8 +93,6 @@ h1, h2, h3, h4, h5 {
     font-size: 14px;
     margin-top: 8px;
 }
-
-/* KPI CARDS */
 
 .metric-card {
     background: #111E31;
@@ -143,8 +124,6 @@ h1, h2, h3, h4, h5 {
     margin-top: 4px;
 }
 
-/* SECTION HEADINGS */
-
 .section-heading {
     font-family: 'Manrope', sans-serif;
     color: #F0F5FC;
@@ -154,8 +133,6 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 13px;
 }
 
-/* PANELS */
-
 .info-panel {
     background: #111E31;
     border: 1px solid #23354F;
@@ -164,19 +141,15 @@ h1, h2, h3, h4, h5 {
     color: #EAF2FF;
 }
 
-/* TABS */
-
 div[data-testid="stTabs"] button {
     color: #AFC2DC !important;
 }
 
-/* BUTTONS */
-
 .stButton > button,
 .stFormSubmitButton > button {
-    background: #287FE5;
+    background: #287FE5 !important;
     color: white !important;
-    border: none;
+    border: none !important;
     border-radius: 8px;
     font-weight: 700;
     padding: 10px 20px;
@@ -184,12 +157,9 @@ div[data-testid="stTabs"] button {
 
 .stButton > button:hover,
 .stFormSubmitButton > button:hover {
-    background: #4599FA;
+    background: #4599FA !important;
     color: white !important;
-    border: none;
 }
-
-/* INPUT FIELDS */
 
 .stTextInput input,
 .stNumberInput input {
@@ -198,21 +168,47 @@ div[data-testid="stTabs"] button {
     border-color: #2A3E5C !important;
 }
 
-/* DROPDOWN FIELDS */
-
 div[data-baseweb="select"] > div {
-    background: #111E31;
-    border-color: #2A3E5C;
+    background: #111E31 !important;
+    border-color: #2A3E5C !important;
 }
 
 div[data-baseweb="select"] * {
-    color: #FFFFFF;
+    color: #FFFFFF !important;
 }
 
-/* DROPDOWN MENU OPTIONS */
+/* FIX: PREDICTION METRIC TEXT */
 
-ul[data-testid="stSelectboxVirtualDropdown"] {
-    background: #FFFFFF;
+[data-testid="stMetric"] {
+    background: #111E31 !important;
+    border: 1px solid #2A3E5C !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+}
+
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] *,
+[data-testid="stMetricValue"],
+[data-testid="stMetricValue"] *,
+[data-testid="stMetricDelta"],
+[data-testid="stMetricDelta"] * {
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stMetricValue"] {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 800 !important;
+}
+
+/* PREDICTION ALERTS */
+
+[data-testid="stAlert"] {
+    border-radius: 10px;
+}
+
+[data-testid="stAlert"] p {
+    font-weight: 600 !important;
 }
 
 hr {
@@ -302,7 +298,6 @@ with st.sidebar:
     )
 
     st.markdown("---")
-
     st.caption("MACHINE LEARNING PROJECT")
     st.caption("Telecommunications Customer Analytics")
     st.caption("ChurnGuard AI · 2026")
@@ -392,7 +387,6 @@ if page == "Overview":
         )
 
         fig.update_layout(**CHART_LAYOUT)
-
         fig.update_traces(
             textposition="outside",
             textinfo="percent+label"
@@ -445,7 +439,6 @@ if page == "Overview":
     )
 
     fig.update_layout(**CHART_LAYOUT)
-
     st.plotly_chart(fig, use_container_width=True)
 
 
@@ -476,7 +469,6 @@ elif page == "Churn Insights":
         )
 
         fig.update_layout(**CHART_LAYOUT, showlegend=False)
-
         st.plotly_chart(fig, use_container_width=True)
 
     with right:
@@ -492,7 +484,6 @@ elif page == "Churn Insights":
         )
 
         fig.update_layout(**CHART_LAYOUT)
-
         st.plotly_chart(fig, use_container_width=True)
 
     contract_rate = (
@@ -551,7 +542,6 @@ elif page == "Customer Prediction":
         st.markdown("#### Customer Profile")
 
         col1, col2, col3 = st.columns(3)
-
         inputs = {}
 
         for i, column in enumerate(feature_columns):
@@ -575,10 +565,7 @@ elif page == "Customer Prediction":
                 elif column == "tenure":
 
                     inputs[column] = st.number_input(
-                        "Tenure (Months)",
-                        0,
-                        72,
-                        12
+                        "Tenure (Months)", 0, 72, 12
                     )
 
                 elif column == "MonthlyCharges":
@@ -612,34 +599,40 @@ elif page == "Customer Prediction":
         )
 
         try:
+
             # Generate prediction
             prediction = int(model.predict(input_df)[0])
 
-            # Calculate churn probability
+            # Get churn probability
             probability = None
 
             if hasattr(model, "predict_proba"):
 
                 probabilities = model.predict_proba(input_df)[0]
 
-                # FIX: Read class labels directly from the model
-                classes = list(model.classes_)
+                # Find the final estimator in the pipeline
+                if hasattr(model, "classes_"):
+                    classes = list(model.classes_)
 
-                churn_index = classes.index(1)
+                elif hasattr(model, "named_steps"):
+                    final_estimator = list(model.named_steps.values())[-1]
+                    classes = list(final_estimator.classes_)
 
-                probability = float(probabilities[churn_index]) * 100
+                else:
+                    classes = []
+
+                if 1 in classes:
+                    churn_index = classes.index(1)
+                    probability = float(probabilities[churn_index]) * 100
 
             st.markdown("---")
             st.markdown("### Prediction Result")
 
             if prediction == 1:
-
                 st.error(
                     "HIGH PRIORITY: MODEL PREDICTS CUSTOMER CHURN"
                 )
-
             else:
-
                 st.success(
                     "MODEL PREDICTS CUSTOMER RETENTION"
                 )
@@ -647,13 +640,16 @@ elif page == "Customer Prediction":
             if probability is not None:
 
                 st.metric(
-                    "Estimated Churn Probability",
-                    f"{probability:.2f}%"
+                    label="Estimated Churn Probability",
+                    value=f"{probability:.2f}%"
                 )
 
                 st.progress(
                     min(max(probability / 100, 0.0), 1.0)
                 )
+
+            else:
+                st.info("Churn probability is unavailable for this model.")
 
             st.caption(
                 "This is a model prediction based on the supplied customer "
@@ -717,11 +713,9 @@ elif page == "Model Performance":
             )
 
             fig.update_layout(**CHART_LAYOUT)
-
             st.plotly_chart(fig, use_container_width=True)
 
     except FileNotFoundError:
-
         st.warning("Model comparison CSV not found.")
 
     st.markdown("#### Feature Importance")
@@ -741,11 +735,9 @@ elif page == "Model Performance":
         )
 
         fig.update_layout(**CHART_LAYOUT)
-
         st.plotly_chart(fig, use_container_width=True)
 
     except FileNotFoundError:
-
         st.warning("Feature importance CSV not found.")
 
 
