@@ -172,7 +172,7 @@ def load_model():
 
 @st.cache_data
 def load_data():
-    data = pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn(2).csv")
+    data = pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv")
     data["TotalCharges"] = pd.to_numeric(
         data["TotalCharges"], errors="coerce"
     )
